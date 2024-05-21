@@ -1,0 +1,15 @@
+$BACKGROUND_COLOR: #111629;
+
+*{
+    background: $BACKGROUND_COLOR;
+}
+
+.title-text{
+    font-size: 110%;
+}
+
+.row:has(.col[routerLink]:hover),
+.col[routerLink]:hover{
+    background: #c5defd;
+    color: #445476;
+}

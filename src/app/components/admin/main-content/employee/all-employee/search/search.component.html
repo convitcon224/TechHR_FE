@@ -1,0 +1,26 @@
+<section id="search-session">
+    <div class="row">
+        <div class="col">
+            <select class="form-select opacity-75" aria-label="Default select example" [(ngModel)]="departmentID">
+                <option selected>Department</option>
+                @for (department of departmentList; track department) {
+                    <option value={{department.id}}>{{department.name}}</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+            <select class="form-select opacity-75" aria-label="Default select example" [(ngModel)]="majorID">
+                <option selected>Major</option>
+                @for (major of majorList; track major) {
+                    <option value={{major.id}}>{{major.value}}</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div id="search-button-session" class="row justify-content-end">
+        <div class="col-2">
+            <button type="button" class="btn" (click)="searchEmployee()"><i class="bi bi-search"></i> Search</button>
+        </div>
+        
+    </div>
+</section>

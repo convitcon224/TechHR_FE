@@ -1,0 +1,65 @@
+<h2 mat-dialog-title>Employee detail</h2>
+<mat-dialog-content>
+    <div id="liveAlertPlaceholder"></div>
+    <form [formGroup]="employeeUpdateForm">
+        <div class="row">
+            <div class="col-3">
+                <mat-form-field>
+                    <mat-label>ID</mat-label>
+                    <input matInput formControlName="id" readonly>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field>
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName="name">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field>
+                    <mat-label>Phone</mat-label>
+                    <input matInput formControlName="phone">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-6">
+                <select class="form-select opacity-75" aria-label="Default select example" formControlName="departmentID">
+                    @for (department of departmentList; track department) {
+                        <option value={{department.id}}>{{department.name}}</option>
+                    }
+                </select>
+            </div>
+            <div class="col-5">
+                <select class="form-select opacity-75" aria-label="Default select example" formControlName="majorID">
+                    @for (major of majorList; track major) {
+                        <option value={{major.id}}>{{major.value}}</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <div class="container">
+        <div class="row">
+            <div class="col-9 ms-3">
+                <button mat-button (click)="onDeleteClick()" style="color: #dc3545;">Delete</button>
+            </div>
+            <div class="col align-self-end">
+                <button mat-button [mat-dialog-close]="data">Discard</button>
+                <button mat-button (click)="onSaveClick()" cdkFocusInitial>Save</button>
+            </div>        
+        </div>
+    </div>
+</mat-dialog-actions>

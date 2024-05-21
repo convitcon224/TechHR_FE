@@ -1,0 +1,27 @@
+#add-employee-session {
+    margin: 20px 2%;
+    background-color: white;
+    padding: 20px 12px 0 12px;
+    box-shadow: 2px 2px 15px 2px grey;
+}
+
+#add-employee-session mat-form-field {
+    width: 100%;
+  }
+
+#add-employee-session #add-button-session {
+    margin-top: 30px;
+    padding: 10px;
+    background-color: #e1e8f0;
+    text-align: end;
+}
+
+#add-employee-session #add-button-session button{
+    border-radius: 20px;
+    background-color: #24a0ed;
+    width: 60%;
+}
+
+#add-employee-session #add-button-session button:hover{
+    background-color: #63bcf3;
+}
