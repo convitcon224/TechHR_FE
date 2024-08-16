@@ -2,17 +2,17 @@
     <div class="row">
         <div class="col">
             <select class="form-select opacity-75" aria-label="Default select example" [(ngModel)]="departmentID">
-                <option selected>Department</option>
+                <option value="" selected>Department</option>
                 @for (department of departmentList; track department) {
-                    <option value={{department.id}}>{{department.name}}</option>
+                    <option [value]="':'+department.id">{{department.name}}</option>
                 }
             </select>
         </div>
         <div class="col">
             <select class="form-select opacity-75" aria-label="Default select example" [(ngModel)]="majorID">
-                <option selected>Major</option>
+                <option value="" selected>Major</option>
                 @for (major of majorList; track major) {
-                    <option value={{major.id}}>{{major.value}}</option>
+                    <option [value]="':'+major.id">{{major.value}}</option>
                 }
             </select>
         </div>

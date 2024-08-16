@@ -1,16 +1,13 @@
 <section id="add-employee-session">
-    <div class="row">
-        <h2>ID name email phone password major department deleted</h2>
+    <div class="row justify-content-center">
+        <div class="col-2">
+            <h2>New Account</h2>
+        </div>
     </div>
     <div class="row">
         <form [formGroup]="newEmployeeForm">
+            <div id="liveAlertPlaceholder"></div>
             <div class="row">
-                <div class="col-2">
-                    <mat-form-field>
-                        <mat-label>ID</mat-label>
-                        <input matInput formControlName="id" readonly>
-                    </mat-form-field>
-                </div>
                 <div class="col">
                     <mat-form-field>
                         <mat-label>Name</mat-label>
@@ -34,28 +31,56 @@
                     </mat-form-field>
                 </div>
             </div>
-            <div class="row mt-3">
-                <div class="col-6">
-                    <select class="form-select opacity-75" aria-label="Default select example" formControlName="departmentID">
-                        @for (department of departmentList; track department) {
-                            <option value={{department.id}}>{{department.name}}</option>
-                        }
-                    </select>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label>Password</mat-label>
+                        <input matInput formControlName="password" type="password">
+                    </mat-form-field>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label>Confirm Password</mat-label>
+                        <input matInput formControlName="passwordConfirm" type="password">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row mt-2">
                 <div class="col-5">
-                    <select class="form-select opacity-75" aria-label="Default select example" formControlName="majorID">
-                        @for (major of majorList; track major) {
-                            <option value={{major.id}}>{{major.value}}</option>
-                        }
+                    <select class="form-select opacity-75" aria-label="Default select example" formControlName="role">
+                        <option value="Admin">Admin</option>
+                        <option value="User">User</option>
                     </select>
                 </div>
             </div>
+            @if (newEmployeeForm.value.role=="User") {
+                <div class="row mt-3">
+                    <div class="col-6">
+                        <select class="form-select opacity-75" aria-label="Default select example" formControlName="departmentID">
+                            @for (department of departmentList; track department) {
+                                <option value={{department.id}}>{{department.name}}</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-5">
+                        <select class="form-select opacity-75" aria-label="Default select example" formControlName="majorID">
+                            @if (newEmployeeForm.value.departmentID==1){
+                                @for (major of majorList; track major) {
+                                    <option value={{major.id}}>{{major.value}}</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            }
         </form>
     </div>
     
     <div id="add-button-session" class="row justify-content-end">
         <div class="col-2">
-            <button type="button" class="btn"><i class="bi bi-plus-lg"></i> Add</button>
+            <button type="button" class="btn" (click)="onAddClick()"><i class="bi bi-plus-lg"></i> Add</button>
         </div>
     </div>
 </section>

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Department } from '../../models/department';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -7,11 +9,10 @@ import { Department } from '../../models/department';
 export class DepartmentService {
   url = 'http://localhost:8080/departments';
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  async getAllDepartments(): Promise<Department[]> {
-    const data = await fetch(this.url);
-    return (await data.json()) ?? [];
+  getAllDepartments(): Observable<Department[]> {
+    return this.http.get<Department[]>(this.url);
   }
 
   getIdByName(objectList: Department[], name: string): string {

@@ -15,3 +15,12 @@
 #right-content{
     background-color: #f1f4f9;
 }
+
+::ng-deep .p-float-label {
+    display: inline;
+}
+
+
+::ng-deep .p-datepicker {
+    transform: scale(0.77);
+}

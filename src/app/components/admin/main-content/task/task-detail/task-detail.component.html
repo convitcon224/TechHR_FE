@@ -1,79 +1,158 @@
 <h2 mat-dialog-title>Task detail</h2>
 <mat-dialog-content>
-    <div class="row">
-        <div class="col-3">
-            <mat-form-field>
-                <mat-label>ID</mat-label>
-                <input matInput [(ngModel)]="data.id" disabled="true">
-            </mat-form-field>
+    <div id="liveAlertPlaceholder"></div>
+    <div id="liveAlertPlaceholderAssign"></div>
+    <form [formGroup]="editTaskForm">
+        <div class="row">
+            <div class="col-3">
+                <mat-form-field>
+                    <mat-label>ID</mat-label>
+                    <input matInput formControlName="id">
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field>
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName="name">
+                </mat-form-field>
+            </div>
         </div>
-        <div class="col">
-            <mat-form-field>
-                <mat-label>Name</mat-label>
-                <input matInput [(ngModel)]="data.name">
-            </mat-form-field>
+        <div class="row">
+            <div class="col-3">
+                <select class="form-select opacity-75" aria-label="Default select example" formControlName="difficultyId">
+                    <option selected>Difficulty</option>
+                    @for (difficulty of difficultyList; track difficulty) {
+                        <option value={{difficulty.id}}>{{difficulty.value}}</option>
+                    }
+                </select>
+            </div>
+            <div class="col-4">
+                <select class="form-select opacity-75" aria-label="Default select example" formControlName="statusId">
+                    <option selected>Status</option>
+                    @for (status of statusList; track status) {
+                        <option value={{status.id}}>{{status.description}}</option>
+                    }
+                </select>
+            </div>
+            <div class="col-4">
+                <select class="form-select opacity-75" aria-label="Default select example" formControlName="typeId">
+                    <option selected>Type</option>
+                    @for (type of typeList; track type) {
+                        <option value={{type.id}}>{{type.description}}</option>
+                    }
+                </select>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-3">
-            <mat-form-field>
-                <mat-label>Difficulty</mat-label>
-                <input matInput [(ngModel)]="data.difficulty">
-            </mat-form-field>
+        <div class="row mt-3">
+            <div class="col">
+                <span class="p-float-label">
+                    <p-calendar
+                        formControlName="createTime"
+                        dateFormat="dd/mm/yy"
+                        [showTime]="true"
+                        [hourFormat]="'24'"/>
+                        <label>Create Time</label>
+                </span>
+            </div>
+            <div class="col">
+                <span class="p-float-label">
+                    <p-calendar
+                        [minDate]="editTaskForm.get('createTime')!.value"
+                        formControlName="deadline"
+                        dateFormat="dd/mm/yy"
+                        [showTime]="true"
+                        [hourFormat]="'24'"/>
+                        <label>Deadline</label>
+                </span>
+            </div>
         </div>
-        <div class="col-4">
-            <mat-form-field>
-                <mat-label>Status</mat-label>
-                <input matInput [(ngModel)]="data.status">
-            </mat-form-field>
+        <div class="row">
+            <div class="col">
+                <mat-form-field>
+                    <mat-label>Description</mat-label>
+                    <textarea matInput formControlName="description"></textarea>
+                </mat-form-field>
+            </div>
         </div>
-        <div class="col-4">
-            <mat-form-field>
-                <mat-label>Type</mat-label>
-                <input matInput [(ngModel)]="data.type">
-            </mat-form-field>
+        <div class="row">
+            <div class="col">
+                <mat-form-field>
+                    <mat-label>Document</mat-label>
+                    <input matInput formControlName="documentId">
+                </mat-form-field>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <mat-form-field>
-                <mat-label>Create Time</mat-label>
-                <input matInput [(ngModel)]="data.createTime">
-            </mat-form-field>
-        </div>
-        <div class="col">
-            <mat-form-field>
-                <mat-label>Deadline</mat-label>
-                <input matInput [(ngModel)]="data.deadline">
-            </mat-form-field>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <mat-form-field>
-                <mat-label>Description</mat-label>
-                <textarea matInput [(ngModel)]="data.description"></textarea>
-            </mat-form-field>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <mat-form-field>
-                <mat-label>Document</mat-label>
-                <input matInput [(ngModel)]="data.document">
-            </mat-form-field>
-        </div>
-    </div>
+    </form>
+
+    <fieldset class="border p-2 mt-3">
+        <legend  class="float-none w-auto">Assignment</legend>
+        <form [formGroup]="assignTaskForm">
+            <div class="row">
+                <div class="col-5">
+                    <select class="form-select opacity-75" formControlName="departmentId" (change)="fetchEmployeeList()">
+                        <option value="" selected>Department</option>
+                        @for (department of departmentList; track department) {
+                            <option [value]="':'+department.id">{{department.name}}</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-5">
+                    <select class="form-select opacity-75" formControlName="majorId" (change)="fetchEmployeeList()">
+                        <option value="" selected>Major</option>
+                        @for (major of majorList; track major) {
+                            <option [value]="':'+major.id">{{major.value}}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-7">
+                    <select class="form-select opacity-75" formControlName="employeeId">
+                        <option selected>Employee</option>
+                        @for (employee of employeeList; track employee) {
+                            <option value={{employee.id}}>({{employee.id}}) {{employee.name}}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <span class="p-float-label">
+                        <p-calendar
+                            [minDate]="editTaskForm.get('createTime')!.value"
+                            formControlName="startTime"
+                            dateFormat="dd/mm/yy"
+                            [showTime]="true"
+                            [hourFormat]="'24'"/>
+                        <label>Start time</label>
+                    </span>
+                </div>
+                <div class="col">
+                    <span class="p-float-label">
+                        <p-calendar
+                            [minDate]="editTaskForm.get('createTime')!.value"
+                            formControlName="deadline"
+                            dateFormat="dd/mm/yy"
+                            [showTime]="true"
+                            [hourFormat]="'24'"/>
+                        <label>Due time</label>
+                    </span>
+                </div>
+            </div>
+        </form>
+     </fieldset>
+    
+    
 </mat-dialog-content>
 <mat-dialog-actions>
     <div class="container">
         <div class="row">
             <div class="col-9 ms-3">
-                <button mat-button (click)="onNoClick()" style="color: #dc3545;">Delete</button>
+                <button mat-button (click)="onDeleteClick()" style="color: #dc3545;">Delete</button>
             </div>
             <div class="col align-self-end">
-                <button mat-button (click)="onNoClick()">Discard</button>
-                <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Save</button>
+                <button mat-button (click)="onDiscardClick()">Discard</button>
+                <button mat-button style="color: #0047AB;" (click)="onSaveClick()" cdkFocusInitial [disabled]="!isUpdateFormValid() || !isAssignFormValid()">Save</button>
             </div>        
         </div>
     </div>

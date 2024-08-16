@@ -5,6 +5,10 @@
     box-shadow: 2px 2px 15px 2px grey;
 }
 
+#add-task-session mat-form-field {
+    width: 100%;
+}
+
 #add-task-session #add-button-session {
     margin-top: 30px;
     padding: 10px;

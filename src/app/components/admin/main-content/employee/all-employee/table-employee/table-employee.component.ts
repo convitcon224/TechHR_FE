@@ -35,7 +35,10 @@ export class TableEmployeeComponent implements AfterViewInit {
     this.dataSource = new MatTableDataSource(this.employeeList);
     this.refresh();
     
-    this.employeeService.employeeList.subscribe(employees => {
+    // this.employeeService.employeeList.subscribe(employees => {
+    //   this.dataSource.data = employees;
+    // });
+    this.employeeService.getEmployeeList().subscribe(employees => {
       this.dataSource.data = employees;
     });
   }
@@ -74,7 +77,7 @@ export class TableEmployeeComponent implements AfterViewInit {
   }
 
   refresh(): void {
-    this.employeeService.getAllEmployees().then((employeeList: Employee[]) => {
+    this.employeeService.getAllEmployees().subscribe((employeeList: Employee[]) => {
       this.dataSource.data = employeeList;
     });
   }

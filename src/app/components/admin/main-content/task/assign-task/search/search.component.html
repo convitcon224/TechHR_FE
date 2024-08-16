@@ -1,0 +1,81 @@
+<section id="search-session">
+    <p-fieldset [toggleable]="true" class="mb-3" legend="Filter"
+                [formGroup]="filterAssignmentForm">
+        <div class="row">
+            <div class="col-4">
+                <p-multiSelect
+                    [options]="taskTypeList"
+                    formControlName="taskType"
+                    optionValue="id"
+                    optionLabel="description"
+                    display="chip" [filter]="true"
+                    [resetFilterOnHide]="true"
+                    [style]="{'width':'100%'}"
+                    placeholder="Task type" />
+            </div>
+            <div class="col-4">
+                <p-multiSelect
+                    [options]="taskStatusList"
+                    formControlName="taskStatus"
+                    optionValue="id"
+                    optionLabel="description"
+                    display="chip" [filter]="true"
+                    [resetFilterOnHide]="true"
+                    [style]="{'width':'100%'}"
+                    placeholder="Task status" />
+            </div>
+            <div class="col-4">
+                <p-multiSelect
+                    [options]="taskDifficultyList"
+                    formControlName="taskDifficulty"
+                    optionValue="id"
+                    optionLabel="value"
+                    display="chip" [filter]="true"
+                    [resetFilterOnHide]="true"
+                    [style]="{'width':'100%'}"
+                    placeholder="Task difficulty" />
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-6">
+                <p-multiSelect
+                    [options]="departmentList"
+                    formControlName="department"
+                    optionValue="id"
+                    optionLabel="name"
+                    display="chip" [filter]="true"
+                    [resetFilterOnHide]="true"
+                    [style]="{'width':'100%'}"
+                    placeholder="Department" />
+            </div>
+            <div class="col-6">
+                <p-multiSelect
+                    [options]="majorList"
+                    formControlName="major"
+                    optionValue="id"
+                    optionLabel="value"
+                    display="chip" [filter]="true"
+                    [resetFilterOnHide]="true"
+                    [style]="{'width':'100%'}"
+                    placeholder="Major" />
+            </div>
+        </div>
+        <div class="row mt-3 ms-1">
+            <div class="col">
+                <app-date-range-picker titleLabel="Create time"
+                    (changeStartDateEvent)="handleStartTime1Change($event)"
+                    (changeEndDateEvent)="handleStartTime2Change($event)"/>
+            </div>
+            <div class="col">
+                <app-date-range-picker titleLabel="Deadline"
+                    (changeStartDateEvent)="handleDueTime1Change($event)"
+                    (changeEndDateEvent)="handleDueTime2Change($event)"/>
+            </div>
+        </div>
+    </p-fieldset>
+    <div id="search-button-session" class="row justify-content-end">
+        <div class="col-2">
+            <button type="button" class="btn" (click)="submitFilter()"><i class="bi bi-search"></i> Search</button>
+        </div>
+    </div>
+</section>

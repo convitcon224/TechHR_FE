@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Major } from '../../models/major';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -7,11 +9,10 @@ import { Major } from '../../models/major';
 export class MajorService {
   url = 'http://localhost:8080/majors'
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  async getAllMajors(): Promise<Major[]>{
-    const data = await fetch(this.url);
-    return (await data.json()) ?? [];
+  getAllMajors(): Observable<Major[]>{
+    return this.http.get<Major[]>(this.url);
   }
 
   getIdByValue(objectList: Major[], value: string): string {

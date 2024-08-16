@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Employee } from '../../models/employee';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -9,35 +10,53 @@ export class EmployeeService {
   private url = 'http://localhost:8080/employee';
 
   private employeeListSource: BehaviorSubject<Employee[]> = new BehaviorSubject<Employee[]>([]);
-  employeeList: Observable<Employee[]> = this.employeeListSource.asObservable();
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  async getAllEmployees(): Promise<Employee[]> {
-    const data = await fetch(`${this.url}s`);
-    return (await data.json()) ?? [];
+  getEmployeeList(): Observable<Employee[]> {
+    return this.employeeListSource.asObservable();
+  }
+
+  
+  getAllEmployees(): Observable<Employee[]> {
+    return this.http.get<Employee[]>(`${this.url}s`);
   }
 
 
-  async searchEmployees(majorID: string, departmentID: string) {
+  searchEmployees(majorID: string, departmentID: string) {
     const params = new URLSearchParams();
     params.set('majorID',majorID);
     params.set('departmentID',departmentID);
 
-    const data = await fetch(`${this.url}s/search?${params}`);
-    this.employeeListSource.next((await data.json()) ?? []);
+    this.http.get<Employee[]>(`${this.url}s/search?${params}`).subscribe((searchData)=>{
+      this.employeeListSource.next(searchData);
+    });
   }
 
-  async deleteEmployee(id: string): Promise<any> {
-    const data = await fetch(`${this.url}/${id}`, { method: 'DELETE' });
-    return (await data.json()) ?? [];
+  searchEmployeesNotSub(majorID: string, departmentID: string): Observable<Employee[]> {
+    const params = new URLSearchParams();
+    params.set('majorID',majorID);
+    params.set('departmentID',departmentID);
+
+    return this.http.get<Employee[]>(`${this.url}s/search?${params}`);
   }
 
-  async updateEmployee(employee: any): Promise<any> {
-    const data = await fetch(`${this.url}/${employee.id}`,
-                            { method: 'PUT',
-                              headers: {'Content-Type': 'application/json'},
-                              body: JSON.stringify(employee) });
-    return (await data.json()) ?? [];
+  deleteEmployee(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.url}/${id}`);
+  }
+
+  updateEmployee(employee: any): Observable<any> {
+    const url = `${this.url}/${employee.id}`;
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    return this.http.put<any>(url, employee, httpOptions);
+  }
+
+  addEmployee(employee: any): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    return this.http.post<any>(this.url,employee,httpOptions);
   }
 }

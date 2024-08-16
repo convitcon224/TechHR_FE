@@ -59,21 +59,57 @@ export class EmployeeDetailComponent {
     public dialogRef: MatDialogRef<EmployeeDetailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Employee) 
   {
-    this.departmentService.getAllDepartments().then((departmentList: Department[]) => {
+    this.departmentService.getAllDepartments().subscribe((departmentList: Department[]) => {
       this.departmentList = departmentList;
-      this.departmentID = this.departmentService.getIdByName(this.departmentList, data.department);
+      this.departmentID = this.departmentService.getIdByName(this.departmentList, data.department!);
       this.employeeUpdateForm.patchValue({departmentID: this.departmentID});
     });
 
-    this.majorService.getAllMajors().then((majorList: Major[]) => {
+    this.majorService.getAllMajors().subscribe((majorList: Major[]) => {
       this.majorList = majorList;
-      this.majorID = this.majorService.getIdByValue(this.majorList, data.major);
+      this.majorID = this.majorService.getIdByValue(this.majorList, data.major!);
       this.employeeUpdateForm.patchValue({majorID: this.majorID});
     });
   }
 
   onSaveClick(): void {
     // Validate
+    this.validateSaveForm();
+
+    // Save
+    this.employeeService.updateEmployee(this.employeeUpdateForm.getRawValue()).subscribe((result: any) => {
+      if (result.id){
+        this.createAlertDiv('Success!','success');
+      } else {
+        this.createAlertDiv(result?.message,'danger');
+      }
+    });
+  }
+
+  onDeleteClick(): void {
+    this.employeeService.deleteEmployee(this.data.id!).subscribe((result: any) => {
+      if (result.id){
+        this.createAlertDiv('Success!','success');
+      } else {
+        this.createAlertDiv(result?.message,'danger');
+      }
+    });
+  }
+
+  createAlertDiv(message: string, type: string): void {
+    let alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+
+    let wrapper = document.createElement('div');
+    wrapper.innerHTML = [
+      `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+    `   <div>${message}</div>`,
+    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+    '</div>'
+    ].join('');
+    alertPlaceholder?.replaceChildren(wrapper)
+  }
+
+  validateSaveForm(): void {
     if (this.employeeUpdateForm.controls.name.hasError('required')) {
       this.createAlertDiv('Name field is required!','danger');
       return;
@@ -98,38 +134,7 @@ export class EmployeeDetailComponent {
       this.createAlertDiv('Invalid phone!','danger');
       return;
     }
-
-    // Save
-    this.employeeService.updateEmployee(this.employeeUpdateForm.getRawValue()).then((result: any) => {
-      if (result.id){
-        this.createAlertDiv('Success!','success');
-      } else {
-        this.createAlertDiv(result?.message,'danger');
-      }
-    });
   }
-
-  onDeleteClick(): void {
-    this.employeeService.deleteEmployee(this.data.id).then((result: any) => {
-      if (result.id){
-        this.createAlertDiv('Success!','success');
-      } else {
-        this.createAlertDiv(result?.message,'danger');
-      }
-    });
-  }
-
-  createAlertDiv(message: string, type: string): void {
-    let alertPlaceholder = document.getElementById('liveAlertPlaceholder');
-
-    let wrapper = document.createElement('div');
-    wrapper.innerHTML = [
-      `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-    `   <div>${message}</div>`,
-    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-    '</div>'
-    ].join('');
-    alertPlaceholder?.replaceChildren(wrapper)
-  }
+  
 }
 

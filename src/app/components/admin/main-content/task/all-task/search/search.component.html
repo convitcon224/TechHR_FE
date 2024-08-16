@@ -1,47 +1,45 @@
 <section id="search-session">
     <div class="row">
         <div class="col-3">
-            <select class="form-select opacity-75" aria-label="Default select example">
+            <select class="form-select opacity-75" aria-label="Default select example" [(ngModel)]="typeFilter">
                 <option selected>Type</option>
-                <option value="1">Full-stack developer</option>
-                <option value="2">Front-end developer</option>
-                <option value="3">Back-end developer</option>
-                <option value="4">Tester</option>
+                @for (type of typeList; track type) {
+                    <option value={{type.id}}>{{type.description}}</option>
+                }
             </select>
         </div>
         <div class="col">
-            <select class="form-select opacity-75" aria-label="Default select example">
+            <select class="form-select opacity-75" aria-label="Default select example" [(ngModel)]="difficultyFilter">
                 <option selected>Difficulty</option>
-                <option value="1">Technical</option>
-                <option value="2">Management</option>
-                <option value="3">Production</option>
-                <option value="4">Human resouces</option>
-                <option value="5">Financial Accounting</option>
-                <option value="6">Marketing</option>
-                <option value="7">Business</option>
+                @for (difficulty of difficultyList; track difficulty) {
+                    <option value={{difficulty.id}}>{{difficulty.value}}</option>
+                }
             </select>
         </div>
         <div class="col">
-            <select class="form-select opacity-75" aria-label="Default select example">
+            <select class="form-select opacity-75" aria-label="Default select example" [(ngModel)]="statusFilter">
                 <option selected>Status</option>
-                <option value="1">Full-stack developer</option>
-                <option value="2">Front-end developer</option>
-                <option value="3">Back-end developer</option>
-                <option value="4">Tester</option>
+                @for (status of statusList; track status) {
+                    <option value={{status.id}}>{{status.description}}</option>
+                }
             </select>
         </div>
     </div>
     <div class="row mt-3 ms-1">
         <div class="col">
-            <app-date-range-picker titleLabel="Create time"/>
+            <app-date-range-picker titleLabel="Create time"
+                (changeStartDateEvent)="handleCreateStartDateChange($event)"
+                (changeEndDateEvent)="handleCreateEndDateChange($event)"/>
         </div>
         <div class="col">
-            <app-date-range-picker titleLabel="Deadline"/>
+            <app-date-range-picker titleLabel="Deadline"
+                (changeStartDateEvent)="handleDeadlineStartDateChange($event)"
+                (changeEndDateEvent)="handleDeadlineEndDateChange($event)"/>
         </div>
     </div>
     <div id="search-button-session" class="row justify-content-end">
         <div class="col-2">
-            <button type="button" class="btn"><i class="bi bi-search"></i> Search</button>
+            <button type="button" class="btn" (click)="submitFilter()"><i class="bi bi-search"></i> Search</button>
         </div>
     </div>
 </section>

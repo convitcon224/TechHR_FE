@@ -14,22 +14,22 @@ import { EmployeeService } from '../../../../../../services/employee/employee.se
   styleUrl: './search.component.scss'
 })
 export class SearchComponent {
-  departmentID = "Department";
+  departmentID = "";
   departmentList: Department[] = [];
   departmentService: DepartmentService = inject(DepartmentService);
 
-  majorID = "Major";
+  majorID = "";
   majorList: Major[] = [];
   majorService: MajorService = inject(MajorService);
 
   employeeService: EmployeeService = inject(EmployeeService);
 
   constructor() {
-    this.departmentService.getAllDepartments().then((departmentList: Department[]) => {
+    this.departmentService.getAllDepartments().subscribe((departmentList: Department[]) => {
       this.departmentList = departmentList;
     });
 
-    this.majorService.getAllMajors().then((majorList: Major[]) => {
+    this.majorService.getAllMajors().subscribe((majorList: Major[]) => {
       this.majorList = majorList;
     })
   }

@@ -27,13 +27,13 @@
       <!-- Create time Column -->
       <ng-container matColumnDef="createTime">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Create Time </th>
-        <td mat-cell *matCellDef="let row"> {{row.createTime}} </td>
+        <td mat-cell *matCellDef="let row"> {{getFormattedDate(row.createTime)}} </td>
       </ng-container>
 
       <!-- Deadline Column -->
       <ng-container matColumnDef="deadline">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Deadline </th>
-        <td mat-cell *matCellDef="let row"> {{row.deadline}} </td>
+        <td mat-cell *matCellDef="let row"> {{getFormattedDate(row.deadline)}} </td>
       </ng-container>
 
       <!-- Status Column -->

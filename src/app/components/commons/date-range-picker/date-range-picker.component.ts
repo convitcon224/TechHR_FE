@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {provideMomentDateAdapter} from '@angular/material-moment-adapter';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -25,4 +25,14 @@ export const MY_FORMATS = {
 })
 export class DateRangePickerComponent {
   @Input() titleLabel: string = '';
+  @Output() changeStartDateEvent = new EventEmitter<any>();
+  @Output() changeEndDateEvent = new EventEmitter<any>();
+
+  handleStartDateChange(event: any) {
+    this.changeStartDateEvent.emit(event.value);
+  }
+  
+  handleEndDateChange(event: any) {
+    this.changeEndDateEvent.emit(event.value);
+  }
 }

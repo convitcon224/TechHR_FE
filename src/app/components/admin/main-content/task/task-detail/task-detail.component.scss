@@ -2,3 +2,11 @@ mat-form-field{
     width: 90%;
     margin: 2px 0;
 }
+
+* {
+    color: black;
+}
+
+button[disabled], button:disabled {
+    background-color: 	#B8B8B8;
+}

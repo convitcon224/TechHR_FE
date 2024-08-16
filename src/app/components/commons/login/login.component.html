@@ -1,0 +1,27 @@
+<div id="login-container">
+    <h2>Sign in</h2>
+    <div id="liveAlertPlaceholder"></div>
+    <form [formGroup]="loginForm" (ngSubmit)="handleSubmitLoginForm()">
+        <div class="row">
+            <div class="col">
+                <mat-form-field>
+                    <mat-label>Phone</mat-label>
+                    <input matInput formControlName="username">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field>
+                    <mat-label>Password</mat-label>
+                    <input matInput formControlName="password" type="password">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button mat-flat-button color="accent" type="submit">Login</button>
+            </div>
+        </div>
+    </form>
+</div>
